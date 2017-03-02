@@ -1,0 +1,297 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{tikz-cd}
+\usepackage{mathrsfs}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{enumitem}
+\usepackage{yfonts}
+\usepackage{ dsfont }
+\usepackage{soul}
+
+
+
+
+\def\Bin{\operatorname{Bin}}
+\def\Ber{\operatorname{Ber}}
+\def\Geom{\operatorname{Geom}}
+\def\Pois{\operatorname{Pois}}
+\def\Exp{\operatorname{Exp}}
+\def\Var{\operatorname{Var}}
+\newcommand{\E}{\mathbb E}            % blackboard E
+\newcommand{\bP}{\mathbb P}            % blackboard P
+\newcommand{\bM}{\mathbb M} 
+\usepackage{mathtools,etoolbox}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+\makeatletter
+\let\oldabs\abs
+\def\abs{\@ifstar{\oldabs}{\oldabs*}}
+%
+\let\oldnorm\norm
+\def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
+\makeatother
+\setul{}{1pt}
+
+
+\title{Introduction to Analysis}
+
+\author{Amil Khan}
+
+\date{\today}
+\theoremstyle{definition}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheoremstyle{indented}{3pt}{3pt}{\addtolength{\leftskip}{2.5em}}{}{\bfseries}{.}{.5em}{}
+
+\theoremstyle{indented}
+
+\newtheorem*{defn}{Definition}
+
+\theoremstyle{definition}
+\newtheorem{eg}[thm]{Example}
+\newtheorem{ex}[thm]{Exercise}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{claim}[thm]{Claim}
+\newtheorem{rmk}[thm]{Remark}
+
+\newcommand{\ie}{\emph{i.e.} }
+\newcommand{\cf}{\emph{cf.} }
+\newcommand{\into}{\hookrightarrow}
+\newcommand{\dirac}{\slashed{\partial}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\LieT}{\mathfrak{t}}
+\newcommand{\T}{\mathbb{T}}
+\newcommand{\A}{\mathds{A}}
+\newcommand{\an}{\{{a_n}\}^\infty_{n=1} }
+
+\begin{document}
+\maketitle
+
+
+
+\section{Sequences}
+\subsection{Sequences and Convergence}
+
+
+\begin{defn}
+    A \textbf{sequence} is a function whose domain is the set of positive integers.
+\end{defn}
+
+
+\begin{eg}
+\begin{align*}
+\left\{\frac{1+(-1)^n}{2} \right\}^\infty_{n=1}= \{0,1,0,1,0,1...\}
+\end{align*}
+    
+\end{eg}
+
+% Definition
+\begin{defn}
+A sequence $\{a_n\}^\infty_{n=1}$ \textbf{converges to a real number $A$} iff for each $\epsilon>0$ there is a positive integer $N$ such that for all $n\geq N$ we have $\abs{a_n-A}<\epsilon$. 
+\end{defn}
+
+
+Consider the sequence $\{\frac{1}{n}\}^\infty_{n=1}$. If we take large values of $n$, say 500, we see that the sequence is getting closer and closer to zero. Let's prove this. 
+
+\begin{ex}
+Prove $\{\frac{1}{n}\}^\infty_{n=1}$ converges to zero.
+
+\begin{proof}
+Choose $\epsilon>0$. Let $N$ be an integer larger than $\frac{1}{\epsilon}$. So if $n \geq N$, we have $\{\frac{1}{n}\} \leq \{\frac{1}{N}\} \leq \epsilon$. This means that if $a_n = \frac{1}{n}$ and $A=0$, then for $n\geq N, \abs{a_n-A}=\frac{1}{n}<\epsilon.$ Therefore the sequence converges to zero.
+\end{proof}
+\end{ex}
+
+
+% Definition
+\begin{defn}
+A set $Q$ of real numbers is a $neighborhood$ of a real number $x$ iff $Q$ contains an interval of positive length centered at $x$---that is, iff there is $\epsilon>0$ such that$(x-\epsilon, x+\epsilon) \subset Q$.
+\end{defn}
+
+% Definition
+\begin{defn}
+A sequence $\{{a_n}\}^\infty_{n=1}$ is said the be $convergent$ iff there is a real number $A$ such that $\{{a_n}\}^\infty_{n=1}$ converges to $A$. If $\{{a_n}\}^\infty_{n=1}$ is not convergent, it is said to be divergent. 
+\end{defn}
+
+
+\subsection{Cauchy Sequences}
+
+% Definition
+\begin{defn}
+A sequence $\an$ is $Cauchy$ iff for each $\epsilon>0$ there is a positive integer $N$ such that if $m, n \geq N,$ then 
+\begin{align*}
+\abs{a_n-a_m} < \epsilon
+\end{align*}
+
+\end{defn}
+
+% Definition
+\begin{defn}
+Let $S$ be a set of real numbers. A real number $A$ is an \textit{accumulation point} of $S$ iff every neighborhood of $A$ contains infinitely many points of $S$
+\end{defn}
+
+\thm{Bolzano-Weierstrass:}
+Every bounded infinite set of real numbers has at least one accumulation point.
+\begin{proof}
+	Let $S$ be a bounded infinite set. Since $S$ is bounded, there are real numbers $\alpha$ and $\beta$ such that $S\subset [\alpha,\beta].$ If $\alpha_1$ is the midpoint of this interval, then at least one of the sets $[\alpha,\alpha_1]$ and $[\alpha_1, \beta]$ must contain an infinite set of members $S$. Choose one from this property and call it $[a_1, b_1]$. If $\alpha_2$ is the midpoint of this interval, then at least one of the sets $[a_1,\alpha_2]$ and $[\alpha_2, b_1]$ must contain an infinite set of members of $S$. Choose one from this property and call it $[a_2, b_2].$ Continuing in this fashion, we obtain, for each positive integer $n$, a closed interval $[a_n, b_n]$ with the following properties:
+	\begin{enumerate}
+		\item $b_n-a_n=2^{-n}(\beta-\alpha).$
+		\item$[a_n,b_n]$ contains infinitely many points of $S$
+		\item $[a_n,b_n] \subset [a_{n-1}, b_{n-1}]\subset \dots \subset[a_1,b_1]\subset [\alpha,\beta]$ 
+	\end{enumerate}
+\end{proof}
+
+\begin{ex}
+Let $\an$ be a bounded set of real numbers. Prove that $\an$ has a convergent subsequence. 
+
+\begin{proof}
+	Let  $S=\{a_n | n \in \mathbb{N}\}$. \\
+If $S$ is finite, the sequence must take a finite number of values infinitely many times, thus we can construct a constant subsequence.\\
+If $S$ is infinite, then $S$ is infinite and bounded, thus there exists an accumulation point of $S$, denoted $x_0$. We construct a sequence $\{{a_n}_k\}^\infty_{k=1}$, subsequence of $\an$, as follows: Since $x_0$ accumulation point of $S$, for $\epsilon= \frac{1}{k}$ there is ${a_n}_k \in S$ such that ${a_n}_k \in (x_0-\epsilon, x_0+\epsilon).$ Thus, $\abs{{a_n}_k-x_0}<\frac{1}{k}$ for all $k\in \mathbb{N}.$ We will prove that   $\{{a_n}_k\}^\infty_{k=1} \to x_0.$ Let $\epsilon>0,$ then there exists $K> \frac{1}{\epsilon}, K \in \mathbb{N}$ such that $\forall k >K, \abs{{a_n}_k-x_0} <\frac{1}{k}<\epsilon$.
+
+\end{proof}
+
+	
+\end{ex}
+
+
+\subsection{Arithmetic Operations on Sequences}
+
+
+\subsection{Subsequences and Monotone Sequences}
+% Definition
+\begin{defn}
+Let $\an$ be a sequence and $\{{n_k}\}^\infty_{k=1}$ be any positive integers such that $n_1<n_2<n_3 \cdots. $ The sequence $\{{{a_n}_k}\}^\infty_{k=1}$ is called a subsequence of $\an$.
+
+\end{defn}
+
+
+
+% Definition
+\begin{defn}
+A sequence $\an$ is $increasing$ iff $a_n \leq a_{n+1}$ for all positive integers $n$. A sequence $\an$ is $decresing$ iff $a_n \geq a_{n+1}$ for all positive integers $n$. A sequence is $monotone$ iff it is either increasing or decreasing.
+\end{defn}
+
+
+
+
+
+
+
+\section{Limits of Functions}
+
+\begin{defn}
+Definition: Let $f : D \rightarrow R$ with $x_0$ an accumulation point of $D$. Then $f$ has a limit $L$ at $x_0$ iff for each $\epsilon > 0$ there is a $\delta>0$ such that if $0 < | x - x_0| < \delta$ and $x \in D$, then $|f(x)-L| < \epsilon$.
+
+\end{defn}
+
+\subsection{Limits of Functions and Sequences} 
+
+\subsection{Algebra of Limits}
+
+\subsection{Limits of Monotone Functions}
+
+% Definition 
+\begin{defn}
+Let $f:D \to R.$ The function $f$ is said to be $increasing \ (decreasing)$ iff, for all $x, y\in D$ with $x \leq y$,
+\begin{align*}
+f(x) \leq f(y) \qquad f(x) \geq f(y)
+\end{align*}
+If $f$ is either increasing or decreasing, then $f$ is said to be monotone.
+\end{defn}
+
+
+
+
+
+\section{Continuity}
+
+\subsection{Continuity of a Function at a Point}
+
+
+
+% Definition 
+\begin{defn}
+Suppose $E \subset R$ and $f:E \to R$. If $x_0 \in E,$ then $f$ is $continuous$ at $x_0$ iff for each $\epsilon>0$, there is a $\delta>0$ such that if 
+\begin{align*}
+\abs{x-x_0} < \delta, \quad x\in E
+\end{align*}
+then
+\begin{align*}
+\abs{f(x)-f(x_0)} < \epsilon
+\end{align*}
+If $f$ is continuous at $x$ for every point $x\in E$, then we say $f$ is continuous.
+\end{defn}
+
+
+\subsection{Algebra of Continuous Functions}
+
+\thm Suppose $f:D \to R$ and $fg:D \to R$ are continuous  at $x_0 \in D.$ Then, 
+\begin{enumerate}
+	\item $f+g$ is continuous at $x_0$.
+	\item $fg$ is continuous at $x_0$.
+	\item If $g(x_0) \ne 0, f/g$ is continuous at $x_0$.
+\end{enumerate}
+
+\begin{proof}
+\begin{enumerate}
+\item Suppose $f$ and $g$ are continuous at $x_0 \in D$. Let $\{x_n\}$ be any sequence of points in $D$ that converges to $x_0$. Then, $\{f(x_n)\}$ converges to $f(x_0)$ and $\{g(x_n)\}$ converges to $g(x_0)$; hence 
+\begin{align*}
+	\{f(x_n) +g(x_n)\}^\infty_{n=1}
+\end{align*}
+converges to $f(x_0) +g(x_0)$. Thus,
+\begin{align*}
+\{(f+g)(x_n)\}^\infty_{n=1}=\{f(x_n) +g(x_n)\}^\infty_{n=1}
+\end{align*}
+converges to $f(x_0) +g(x_0)=(f+g)(x_0)
+$. Therefore, $f+g$ is continuous at $x_0$
+\end{enumerate}
+\end{proof}
+\subsection{Uniform Continuity: Open, Closed, and Compact Sets}
+
+% Definition 
+\begin{defn}
+A function $f: D \to R$ is \textbf{uniformly  continuous} on $E \subset D$ iff for every $\epsilon > 0,$ there is $\delta >0$ such that if $x,y \in E$ with $\abs{x-y} < \delta$, then $\abs{f(x)-f(y)} < \epsilon.$ If $f$ is uniformly continuous on $D,$ we say $f$ is uniformly continuous.
+\end{defn}
+
+% Definition 
+\begin{defn}
+A set $E \subset D$ is \textbf{closed} iff every accumulation point of $E$ belongs to $E$.
+\end{defn}
+
+% Definition 
+\begin{defn}
+A set $A \subset R$ is \textbf{open} iff for each $x\in A$ there is a neighborhood $Q$ of $x$ such that $Q \subset A$
+\end{defn}
+
+
+
+% Definition 
+\begin{defn}
+A set $E$ is \textbf{compact} iff, for every family $\{G_\alpha\}_{\alpha\in A}$ of open sets such that $E \subset \cup_{\alpha\in A}G_\alpha$, there is a finite set $\{\alpha_1, \dots, \alpha_n\}\subset A$ such that $E \subset \cup_{i=1}^n G_{\alpha_i}$.
+\end{defn}
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+\end{document}
